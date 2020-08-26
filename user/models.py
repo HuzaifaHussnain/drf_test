@@ -45,6 +45,8 @@ class User(AbstractUser):
 
 	username = None
 	email = models.EmailField('email address', unique=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = []
 
@@ -56,7 +58,10 @@ def profile_pic_upload_path(instance, filename):
 
 
 class UserProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	profile_pic = models.ImageField(null=True, upload_to=profile_pic_upload_path)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    bio = models.TextField()
+    profile_pic = models.ImageField(null=False, upload_to=profile_pic_upload_path)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
